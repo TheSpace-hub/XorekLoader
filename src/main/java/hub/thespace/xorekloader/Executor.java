@@ -22,7 +22,7 @@ public class Executor implements Runnable {
     public void execute() {
         commands = getCommands();
         cooldown = getCooldown();
-        executeCommands(commands);
+        Bukkit.getScheduler().runTaskLater(plugin, this, 1L);
     }
 
     @Override
@@ -68,21 +68,12 @@ public class Executor implements Runnable {
             return 10;
         }
         Object value = config.get("cooldown");
-        if (!(value instanceof Boolean)) {
+        if (!(value instanceof Long)) {
             plugin.getLogger().severe("В файле конфигурации поле cooldown должно быть целым числом! (Поле изменено на 10)");
             config.set("cooldown", 10);
             return 10;
         }
         return (long) value;
-    }
-
-    /**
-     * Выполнить команды.
-     *
-     * @param commands Список команд для выполнения.
-     */
-    private void executeCommands(@NotNull List<String> commands) {
-        Bukkit.getScheduler().runTaskLater(plugin, this, 1L);
     }
 
     /**
