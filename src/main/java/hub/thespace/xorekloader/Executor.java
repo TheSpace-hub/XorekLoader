@@ -34,27 +34,6 @@ public class Executor implements Runnable {
     }
 
     /**
-     * Проверяет необходимость в работе плагина.
-     *
-     * @return Нужно ли запускать команды.
-     */
-    public boolean isEnabled() {
-        FileConfiguration config = plugin.getConfig();
-        if (!config.contains("enabled")) {
-            plugin.getLogger().severe("В файле конфигурации нет поля enabled! (Поле изменено на false)");
-            config.set("enabled", false);
-            return false;
-        }
-        Object value = config.get("enabled");
-        if (!(value instanceof Boolean)) {
-            plugin.getLogger().severe("В файле конфигурации поле enabled должно быть true или false! (Поле изменено на false)");
-            config.set("enabled", false);
-            return false;
-        }
-        return (boolean) value;
-    }
-
-    /**
      * Получение задержки между командами.
      *
      * @return Задержка в тиках.

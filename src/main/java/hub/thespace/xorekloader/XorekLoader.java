@@ -10,8 +10,7 @@ public final class XorekLoader extends JavaPlugin {
     public void onEnable() {
         saveDefaultConfig();
 
-        if (executor.isEnabled())
-            executor.execute();
+        executor.execute();
     }
 
 }
