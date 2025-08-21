@@ -9,8 +9,9 @@ public final class XorekLoader extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
-        getLogger().info("Is e: " + executor.isEnabled());
-        getLogger().info("Is cmds: " + executor.getCommands());
+
+        if (executor.isEnabled())
+            executor.execute();
     }
 
 }

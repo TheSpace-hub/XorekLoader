@@ -1,15 +1,37 @@
 package hub.thespace.xorekloader;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class Executor {
+public class Executor implements Runnable {
     private final Plugin plugin;
+    private List<String> commands;
+    private long cooldown;
 
     public Executor(Plugin plugin) {
         this.plugin = plugin;
+    }
+
+    /**
+     * Получить данные из конфига и запустить выполнение.
+     */
+    public void execute() {
+        commands = getCommands();
+        cooldown = getCooldown();
+        executeCommands(commands);
+    }
+
+    @Override
+    public void run() {
+        if (commands.isEmpty())
+            return;
+        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), commands.get(commands.size() - 1));
+        commands.remove(commands.size() - 1);
+        Bukkit.getScheduler().runTaskLater(plugin, this, cooldown);
     }
 
     /**
@@ -34,11 +56,41 @@ public class Executor {
     }
 
     /**
+     * Получение задержки между командами.
+     *
+     * @return Задержка в тиках.
+     */
+    private long getCooldown() {
+        FileConfiguration config = plugin.getConfig();
+        if (!config.contains("cooldown")) {
+            plugin.getLogger().severe("В файле конфигурации нет поля cooldown! (Поле изменено на 10)");
+            config.set("cooldown", 10);
+            return 10;
+        }
+        Object value = config.get("cooldown");
+        if (!(value instanceof Boolean)) {
+            plugin.getLogger().severe("В файле конфигурации поле cooldown должно быть целым числом! (Поле изменено на 10)");
+            config.set("cooldown", 10);
+            return 10;
+        }
+        return (long) value;
+    }
+
+    /**
+     * Выполнить команды.
+     *
+     * @param commands Список команд для выполнения.
+     */
+    private void executeCommands(@NotNull List<String> commands) {
+        Bukkit.getScheduler().runTaskLater(plugin, this, 1L);
+    }
+
+    /**
      * Получение списка команд, которые необходимо выполнить.
      *
      * @return Список команд.
      */
-    public List<String> getCommands() {
+    private List<String> getCommands() {
         FileConfiguration config = plugin.getConfig();
         if (!config.contains("cmds")) {
             plugin.getLogger().severe("В файле конфигурации нет поля cmds! (Поле изменено на пустой список)");
