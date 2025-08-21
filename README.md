@@ -5,3 +5,5 @@
 <a href="https://github.com/TheSpace-hub/XorekLoader?tab=MIT-1-ov-file"><img src="https://img.shields.io/github/license/TheSpace-hub/XorekLoader?style=flat-square" alt="License"></a>
 
 Автоматическое выполнение команд для сервера майнкрафт.
+
+Предпочтительная версия майнкрафт: PupPur 1.16.5
