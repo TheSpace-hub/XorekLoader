@@ -4,14 +4,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class XorekLoader extends JavaPlugin {
 
+    private final Executor executor = new Executor(this);
+
     @Override
     public void onEnable() {
-        // Plugin startup logic
-
+        saveDefaultConfig();
+        getLogger().info("Is e: " + executor.isEnabled());
     }
 
-    @Override
-    public void onDisable() {
-        // Plugin shutdown logic
-    }
 }
