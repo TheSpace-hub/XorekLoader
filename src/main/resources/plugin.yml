@@ -1,0 +1,4 @@
+name: XorekLoader
+version: '${version}'
+main: hub.thespace.xorekloader.XorekLoader
+api-version: '1.16'
