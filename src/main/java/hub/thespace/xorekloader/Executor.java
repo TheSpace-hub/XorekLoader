@@ -3,14 +3,13 @@ package hub.thespace.xorekloader;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class Executor implements Runnable {
     private final Plugin plugin;
     private List<String> commands;
-    private long cooldown;
+    private int cooldown;
 
     public Executor(Plugin plugin) {
         this.plugin = plugin;
@@ -60,7 +59,7 @@ public class Executor implements Runnable {
      *
      * @return Задержка в тиках.
      */
-    private long getCooldown() {
+    private int getCooldown() {
         FileConfiguration config = plugin.getConfig();
         if (!config.contains("cooldown")) {
             plugin.getLogger().severe("В файле конфигурации нет поля cooldown! (Поле изменено на 10)");
@@ -68,12 +67,12 @@ public class Executor implements Runnable {
             return 10;
         }
         Object value = config.get("cooldown");
-        if (!(value instanceof Long)) {
+        if (!(value instanceof Integer)) {
             plugin.getLogger().severe("В файле конфигурации поле cooldown должно быть целым числом! (Поле изменено на 10)");
             config.set("cooldown", 10);
             return 10;
         }
-        return (long) value;
+        return (int) value;
     }
 
     /**
